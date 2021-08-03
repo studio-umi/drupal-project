@@ -68,7 +68,11 @@
         },
         "drupal-paranoia": {
             "app-dir": "app",
-            "web-dir": "web"
+            "web-dir": "web",
+            "asset-files": [
+                "*.svgz",
+                "*.webp"
+            ]
         },
         "installer-paths": {
             "app/core": ["type:drupal-core"],
