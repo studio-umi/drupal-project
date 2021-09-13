@@ -25,9 +25,6 @@ rules:
     - true
     - ignoreFontFamilies: ["Material Icons", "FontAwesome"]
   max-nesting-depth: 3
-  # Drupal コアで設定される no-browser-hacks は SCSS の変数まで対象となってしまうため
-  # 無効にする
-  plugin/no-browser-hacks: null
   scss/at-rule-no-unknown: true
   scss/dollar-variable-colon-space-after: always
   scss/dollar-variable-colon-space-before: never

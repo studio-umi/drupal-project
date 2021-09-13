@@ -26,7 +26,7 @@
     "gulp-stylelint": "^13.0.0",
     "sass": "^1.32.2",
     "stylelint": "^13.8.0",
-    "stylelint-config-drupal": "^1.0.0",
+    "stylelint-config-drupal": "^2.0.0",
     "stylelint-scss": "^3.18.0"
   },
   "babel": {
