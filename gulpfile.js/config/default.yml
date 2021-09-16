@@ -1,6 +1,9 @@
 # @file
 # Gulp.js configuration file.
 
+# ウェブルートディレクトリ. composer.json の drupal-scaffold の設定と合わせる.
+webRoot: app
+
 # @see https://browsersync.io/docs/options
 browsersync:
   logSnippet: false

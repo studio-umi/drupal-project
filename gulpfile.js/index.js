@@ -9,10 +9,10 @@ const plugins = require('gulp-load-plugins')();
 const fibers = require('fibers');
 plugins.sass.compiler = require('sass');
 
-const cssGlobs = 'app/{modules,themes}/custom/**/css/**/*.css';
-const jsGlobs = 'app/{modules,themes}/custom/**/js/**/*.es6.js';
-const scssGlobs = 'app/{modules,themes}/custom/**/scss/**/*.scss';
-const twigGlobs = 'app/{modules,themes}/custom/**/templates/**/*.html.twig';
+const cssGlobs = `${config.webRoot}/{modules,themes}/custom/**/css/**/*.css`;
+const jsGlobs = `${config.webRoot}/{modules,themes}/custom/**/js/**/*.es6.js`;
+const scssGlobs = `${config.webRoot}/{modules,themes}/custom/**/scss/**/*.scss`;
+const twigGlobs = `${config.webRoot}/{modules,themes}/custom/**/templates/**/*.html.twig`;
 
 function browsersyncStart(cb) {
   browsersync.create();
@@ -51,7 +51,7 @@ function buildScss() {
         path.dirname = path.dirname.replace(/\/scss(\/|$)/, '/css$1');
       }),
     )
-    .pipe(dest('app/', { sourcemaps: '.' }));
+    .pipe(dest(`${config.webRoot}/`, { sourcemaps: '.' }));
 }
 
 function buildJs() {
@@ -63,7 +63,7 @@ function buildJs() {
         path.basename = path.basename.replace(/\.es6$/, '');
       }),
     )
-    .pipe(dest('app/', { sourcemaps: '.' }));
+    .pipe(dest(`${config.webRoot}/`, { sourcemaps: '.' }));
 }
 
 exports['build:scss'] = buildScss;
