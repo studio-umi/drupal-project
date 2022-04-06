@@ -24,4 +24,5 @@ rules:
     - true
     - ignoreFontFamilies: ["Material Icons", "FontAwesome"]
   max-nesting-depth: 3
+  unit-allowed-list: ["ch", "deg", "dppx", "em", "ex", "fr", "ms", "rem", "%", "s", "px", "vw", "vh"]
   scss/double-slash-comment-empty-line-before: null
