@@ -24,9 +24,4 @@ rules:
     - true
     - ignoreFontFamilies: ["Material Icons", "FontAwesome"]
   max-nesting-depth: 3
-  scss/at-rule-no-unknown: true
-  scss/dollar-variable-colon-space-after: always
-  scss/dollar-variable-colon-space-before: never
-  scss/at-import-partial-extension: never
-  scss/at-mixin-parentheses-space-before: never
-  scss/no-duplicate-mixins: true
+  scss/double-slash-comment-empty-line-before: null
