@@ -1,17 +1,18 @@
 // node-config で使用するディレクトリが Drupal のものと被るので読み込むディレクトリを指定。
 process.env.NODE_CONFIG_DIR = `${__dirname}/config/`;
 
+/* eslint-disable import/no-extraneous-dependencies */
 const browsersync = require('browser-sync');
 const config = require('config');
-const log = require('fancy-log');
 const { dest, lastRun, parallel, series, src, watch } = require('gulp');
+const through = require('through2');
 const plugins = require('gulp-load-plugins')();
-const fibers = require('fibers');
-plugins.sass.compiler = require('sass');
+const Fiber = require('fibers');
+/* eslint-enable */
 
 const cssGlobs = `${config.webRoot}/{modules,themes}/custom/**/css/**/*.css`;
 const jsGlobs = `${config.webRoot}/{modules,themes}/custom/**/js/**/*.es6.js`;
-const scssGlobs = `${config.webRoot}/{modules,themes}/custom/**/scss/**/*.scss`;
+const scssGlobs = `${config.webRoot}/{modules,themes}/custom/**/css/**/*.scss`;
 const twigGlobs = `${config.webRoot}/{modules,themes}/custom/**/templates/**/*.html.twig`;
 
 function browsersyncStart(cb) {
@@ -33,31 +34,56 @@ function browsersyncReload(cb) {
 }
 
 function buildScss() {
+  const lastRunTime = lastRun(buildScss);
+  let srcHasPartialFile = false;
+
+  // トランスパイル時間を高速化するため _ から始まるパーシャルファイルが更新された場合は
+  // すべての SCSS ファイルをトランスパイルし、そうでない場合は更新されたファイルだけを
+  // 対象とする. パーシャルファイルが更新された場合に、それに関連する SCSS を追うことが
+  // できないための処置. Gulp 4 の since オプションや gulp-changed ではこの様な振る舞いが
+  // できないので自前で実装する.
   return src(scssGlobs, { sourcemaps: true })
     .pipe(
-      plugins.plumber({
-        errorHandler(err) {
-          log(err.messageFormatted);
-          this.emit('end');
-        },
+      through.obj((file, enc, callback) => {
+        // 更新されたファイルの中に パーシャルファイルが無いか確認し、一つでもあれば
+        // srcHasPartialFile のフラグを立てる.
+        if (
+          !srcHasPartialFile &&
+          lastRunTime < file.stat.mtime &&
+          file.path.match(/\/_[^/]+\.scss$/)
+        ) {
+          srcHasPartialFile = true;
+        }
+        callback(null, file);
       }),
     )
-    .pipe(plugins.sassGlob())
-    .pipe(plugins.sass({ fiber: fibers }))
-    .pipe(plugins.sass(config.sass))
-    .pipe(plugins.autoprefixer())
     .pipe(
-      plugins.rename(path => {
-        path.dirname = path.dirname.replace(/\/scss(\/|$)/, '/css$1');
+      through.obj((file, enc, callback) => {
+        // パーシャルファイルが対象に一つも無い場合のみ、ファイルの更新時間と前回の実行時間を
+        // 比べて更新されてないファイルを対象から外す.
+        if (!srcHasPartialFile && lastRunTime > file.stat.mtime) {
+          file = null;
+        }
+        callback(null, file);
       }),
     )
+    .pipe(
+      plugins
+        .dartSass({
+          fiber: Fiber,
+          includePaths: ['node_modules/breakpoint-sass/stylesheets'],
+          outputStyle: 'expanded',
+        })
+        .on('error', plugins.dartSass.logError),
+    )
+    .pipe(plugins.autoprefixer())
     .pipe(dest(`${config.webRoot}/`, { sourcemaps: '.' }));
 }
 
 function buildJs() {
   return src(jsGlobs, { since: lastRun(buildJs), sourcemaps: true })
     .pipe(plugins.plumber())
-    .pipe(plugins.babel())
+    .pipe(plugins.babel({ presets: ['@babel/preset-env'] }))
     .pipe(
       plugins.rename(path => {
         path.basename = path.basename.replace(/\.es6$/, '');
