@@ -22,13 +22,15 @@
     "gulp-plumber": "^1.2.1",
     "gulp-rename": "^2.0.0",
     "gulp-stylelint": "^13.0.0",
-    "stylelint": "^13.8.0",
-    "stylelint-config-drupal": "^2.0.0",
-    "stylelint-scss": "^3.18.0"
+    "stylelint": "^14.6.1",
+    "stylelint-checkstyle-formatter": "^0.1.2",
+    "stylelint-config-drupal": "^3.0.0",
+    "stylelint-config-standard-scss": "^3.0.0"
   },
   "babel": {
     "presets": [
       "@babel/preset-env"
     ]
-  }
+  },
+  "dependencies": {}
 }

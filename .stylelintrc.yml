@@ -5,10 +5,9 @@
 # @see https://stylelint.io/user-guide/configure
 
 # Extends Drupal default stylelint settings.
-extends: stylelint-config-drupal
-
-plugins:
-  - stylelint-scss
+extends:
+  - stylelint-config-standard-scss
+  - stylelint-config-drupal
 
 rules:
   at-rule-empty-line-before:
