@@ -5,6 +5,16 @@ config:
   php: 7.3
   via: apache:2.4
   database: mysql:5.7
+tooling:
+  node:
+    service: node
+  yarn:
+    service: node
+  npx:
+    service: node
+  gulp:
+    service: node
+    cmd: npx gulp
 proxy:
   phpmyadmin:
     - pma.lndo.site
@@ -25,3 +35,5 @@ services:
     type: mailhog
     hogfrom:
       - appserver
+  node:
+    type: node:16.13.0
