@@ -7,7 +7,6 @@ const config = require('config');
 const { dest, lastRun, parallel, series, src, watch } = require('gulp');
 const through = require('through2');
 const plugins = require('gulp-load-plugins')();
-const Fiber = require('fibers');
 /* eslint-enable */
 
 const cssGlobs = `${config.webRoot}/{modules,themes}/custom/**/css/**/*.css`;
@@ -70,7 +69,6 @@ function buildScss() {
     .pipe(
       plugins
         .dartSass({
-          fiber: Fiber,
           includePaths: ['node_modules/breakpoint-sass/stylesheets'],
           outputStyle: 'expanded',
         })
