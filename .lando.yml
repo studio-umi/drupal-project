@@ -2,7 +2,7 @@ name: d9
 recipe: drupal9
 config:
   webroot: web
-  php: 7.3
+  php: 7.4
   via: apache:2.4
   database: mysql:5.7
 tooling:
