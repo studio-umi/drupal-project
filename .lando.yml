@@ -48,4 +48,4 @@ services:
     hogfrom:
       - appserver
   node:
-    type: node:16.13.0
+    type: node:16
