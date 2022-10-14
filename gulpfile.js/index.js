@@ -81,7 +81,7 @@ function buildScss() {
 function buildJs() {
   return src(jsGlobs, { since: lastRun(buildJs), sourcemaps: true })
     .pipe(plugins.plumber())
-    .pipe(plugins.babel({ presets: ['@babel/preset-env'] }))
+    .pipe(plugins.babel({ presets: ['@babel/preset-env'], comments: false }))
     .pipe(
       plugins.rename(path => {
         path.basename = path.basename.replace(/\.es6$/, '');
