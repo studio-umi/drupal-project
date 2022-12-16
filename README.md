@@ -1,8 +1,9 @@
 # Composer template for Drupal projects
 
 ![Merge upstream branches](https://github.com/studioumi/drupal-project/workflows/Merge%20upstream%20branches/badge.svg)
+[![CI](https://github.com/drupal-composer/drupal-project/actions/workflows/ci.yml/badge.svg?branch=10.x)](https://github.com/drupal-composer/drupal-project/actions/workflows/ci.yml)
 
-composer create-projectによってDrupal9.xの初期構築を行うパッケージ。
+composer create-projectによってDrupal10.xの初期構築を行うパッケージ。
 
 ## 使用方法
 
@@ -12,7 +13,7 @@ composer create-projectによってDrupal9.xの初期構築を行うパッケー
 
 ```bash
 # {some-dir} は Drupal をインストールするディレクトリ.
-composer create-project studioumi/drupal-project:9.x-dev {some-dir} --no-interaction
+composer create-project studioumi/drupal-project:10.x-dev {some-dir} --no-interaction
 ```
 
 プロジェクト作成後、インストールディレクトリへ移動しDrupalの初期インストールを実行します。
@@ -53,7 +54,7 @@ composer require drupal/devel:~1.0
 1. `composer update` を利用し、パッケージをアップデートします
 
 ```bash
-composer update drupal/core-recommended drupal/core-dev --with-dependencies
+composer update drupal/core-* --with-dependencies
 ```
 
 2. `git diff` で差分の確認を行います。その際、 `.htaccess` や `robots.txt` 等のファイルも更新される為
@@ -79,7 +80,7 @@ composer update drupal/core-recommended drupal/core-dev --with-dependencies
 以下コマンドで実行するPHPのバージョンを固定することが出来ます。
 
 ```bash
-composer config platform.php 7.4
+composer config platform.php 8.1
 ```
 
 ## フロントエンド開発用のパッケージ

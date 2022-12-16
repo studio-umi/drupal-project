@@ -1,6 +1,6 @@
 {
     "name": "studioumi/drupal-project",
-    "description": "Project template for Drupal 9 projects with composer",
+    "description": "Project template for Drupal 10 projects with composer",
     "type": "project",
     "license": "GPL-2.0-or-later",
     "repositories": [
@@ -10,20 +10,18 @@
         }
     ],
     "require": {
-        "php": ">=7.4",
-        "composer/installers": "^1.9",
+        "php": ">=8.1",
+        "composer/installers": "^2.1",
         "cweagans/composer-patches": "^1.7",
         "drupal-composer/drupal-paranoia": "~1",
-        "drupal/core-composer-scaffold": "^9.0",
-        "drupal/core-recommended": "^9.0",
-        "drush/drush": "^10.3",
+        "drupal/core-composer-scaffold": "^10.0",
+        "drupal/core-recommended": "^10.0",
+        "drush/drush": "^11.0",
         "vlucas/phpdotenv": "^5.1",
-        "webflo/drupal-finder": "^1.2",
-        "zaporylie/composer-drupal-optimizations": "^1.0"
+        "webflo/drupal-finder": "^1.2"
     },
     "require-dev": {
-        "drupal/core-dev": "^9.0",
-        "zaporylie/composer-drupal-optimizations": "^1.2"
+        "drupal/core-dev": "^10.0"
     },
     "conflict": {
         "drupal/drupal": "*"
@@ -32,7 +30,14 @@
     "prefer-stable": true,
     "config": {
         "discard-changes": true,
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/installers": true,
+            "cweagans/composer-patches": true,
+            "drupal/core-composer-scaffold": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "phpstan/extension-installer": true
+        }
     },
     "autoload": {
         "classmap": [
