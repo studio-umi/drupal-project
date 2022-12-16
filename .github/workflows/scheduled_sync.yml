@@ -17,9 +17,9 @@ jobs:
           git pull --unshallow
           git remote add upstream ${REPO_FORK}
           git fetch upstream
-          git checkout 8.x
-          git merge --no-edit upstream/8.x
-          git push origin 8.x
+          git checkout 10.x
+          git merge --no-edit upstream/10.x
+          git push origin 10.x
         env:
           NAME: studioumi
           EMAIL: motoki.kobayashi+github@studio-umi.jp
