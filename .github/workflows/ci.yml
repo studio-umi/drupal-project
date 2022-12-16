@@ -68,6 +68,6 @@ jobs:
         run: composer require phpspec/prophecy-phpunit:^2
 
       - name: Run a single unit test to verify the testing setup.
-        run: ./vendor/bin/phpunit -c ./web/core ./web/core/modules/user/tests/src/Unit/UserAccessControlHandlerTest.php
+        run: ./vendor/bin/phpunit -c ./app/core ./app/core/modules/user/tests/src/Unit/UserAccessControlHandlerTest.php
 
       - run: ./vendor/bin/drush
