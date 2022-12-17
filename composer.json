@@ -16,7 +16,7 @@
         "drupal-composer/drupal-paranoia": "~1",
         "drupal/core-composer-scaffold": "^10.0",
         "drupal/core-recommended": "^10.0",
-        "drush/drush": "^11.0",
+        "drush/drush": "^11.4",
         "vlucas/phpdotenv": "^5.1",
         "webflo/drupal-finder": "^1.2"
     },
