@@ -1,7 +1,7 @@
 # Composer template for Drupal projects
 
-![Merge upstream branches](https://github.com/studioumi/drupal-project/workflows/Merge%20upstream%20branches/badge.svg)
-[![CI](https://github.com/drupal-composer/drupal-project/actions/workflows/ci.yml/badge.svg?branch=10.x)](https://github.com/drupal-composer/drupal-project/actions/workflows/ci.yml)
+[![Merge upstream branches](https://github.com/studioumi/drupal-project/actions/workflows/scheduled_sync.yml/badge.svg)](https://github.com/studioumi/drupal-project/actions/workflows/scheduled_sync.yml)
+[![CI](https://github.com/studioumi/drupal-project/actions/workflows/ci.yml/badge.svg)](https://github.com/studioumi/drupal-project/actions/workflows/ci.yml)
 
 composer create-projectによってDrupal10.xの初期構築を行うパッケージ。
 
@@ -30,13 +30,13 @@ git init
 git commit -m "initial commit."
 ```
 
-## Landoを実行
+## DDEVを実行
 
-以下コマンドでLando環境が起動します。
-Landoのインストールは事前に行ってください。( https://docs.lando.dev/basics/installation.html )
+以下コマンドでDDEV環境が起動します。
+DDEVのインストールは事前に行ってください。( https://ddev.readthedocs.io/en/stable/ )
 
 ```bash
-lando start
+ddev start
 ```
 
 ## その他ライブラリ導入方法
@@ -164,4 +164,4 @@ browsersync:
 
 - `drupal/core` -> `drupal/core-recomended` への置き換え
 - [drupal-composer/drupal-paranoia](https://packagist.org/packages/drupal-composer/drupal-paranoia) の利用
-- [Lando](https://docs.lando.dev/) の実行環境
+- [DDEV](https://ddev.readthedocs.io/en/stable/) の実行環境
