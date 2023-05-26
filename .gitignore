@@ -8,8 +8,8 @@
 /app/libraries/
 
 # Ignore sensitive information
-/app/sites/*/settings.local.php
-/app/sites/*/services.local.yml
+/app/sites/*/settings.*.php
+/app/sites/*/services.*.yml
 
 # Ignore Drupal's file directory
 /app/sites/*/files/

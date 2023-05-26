@@ -20,7 +20,6 @@ nodejs_version: "16"
 
 # custom settings.
 timezone: Asia/Tokyo
-disable_settings_management: true
 
 # Key features of ddev's config.yaml:
 
