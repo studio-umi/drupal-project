@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# @file
+# Check all custom theme/module files with PHPCS.
+
+set -e
+
+project_root=$(dirname `dirname "$(readlink -f "$0")"`)
+
+if [ ! -f "$project_root/phpcs.xml.dist" ]; then
+  echo "PHPCS standard file not found."
+  exit 1
+fi
+
+doc_root=$project_root
+if [ -d "$project_root/app" ]; then
+  doc_root=$project_root/app
+elif [ -d "$project_root/web" ]; then
+  doc_root=$project_root/web
+fi
+
+target_dirs=""
+if [ -d "$doc_root/modules/custom" ]; then
+  target_dirs+=" $doc_root/modules/custom"
+fi
+if [ -d "$doc_root/themes/custom" ]; then
+  target_dirs+=" $doc_root/themes/custom"
+fi
+
+if [ "$target_dirs" = "" ]; then
+  echo "No target files found."
+  exit 1
+fi
+
+$project_root/vendor/bin/phpcs \
+  --standard=$project_root/phpcs.xml.dist \
+  --extensions=inc,install,module,php,theme \
+  $target_dirs
