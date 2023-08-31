@@ -39,13 +39,13 @@
 
   <!-- #options の値は翻訳するため t() 関数を通す -->
   <rule ref="DrupalPractice.General.OptionsT.TforValue">
-    <!-- 日本語だけのサイトを構築することがあるので無視する -->
+    <!-- 日本語だけのサイトなので無視する -->
     <severity>0</severity>
   </rule>
 
   <!-- #description の値は翻訳するため t() 関数を通す -->
   <rule ref="DrupalPractice.General.DescriptionT.DescriptionT">
-    <!-- 日本語だけのサイトを構築することがあるので無視する -->
+    <!-- 日本語だけのサイトなので無視する -->
     <severity>0</severity>
   </rule>
 </ruleset>
