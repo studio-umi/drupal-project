@@ -39,8 +39,5 @@
 # Ignore map files
 *.map
 
-# Ignore PHPStan cache files
-/.phpstan/cache/
-
-# Ignore PHPCS cache file
-/.phpcs.cache
+# Ignore cache files
+/.cache/

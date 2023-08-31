@@ -7,7 +7,7 @@
   <file>app/modules/custom/</file>
 
   <!-- オプション -->
-  <arg name="cache" value=".phpcs.cache"/>
+  <arg name="cache" value=".cache/phpcs"/>
   <arg name="extensions" value="php,module,inc,install,test,profile,theme,info,txt,md,yml"/>
   <arg name="parallel" value="8"/>
 

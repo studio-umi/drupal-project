@@ -2,7 +2,7 @@ parameters:
   reportUnmatchedIgnoredErrors: false
   tipsOfTheDay: false
   level: 1
-  tmpDir: .phpstan/cache
+  tmpDir: .cache/phpstan/
   paths:
     - web/modules/custom
     - web/themes/custom
