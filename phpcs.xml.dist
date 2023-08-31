@@ -1,28 +1,28 @@
 <?xml version="1.0"?>
 <ruleset name="Studio Umi coding standatd for Drupal development">
+  <description>PHP CodeSniffer configuration for Studio Umi Drupal development.</description>
+
   <!-- 対象のディレクトリ -->
   <file>app/themes/custom/</file>
   <file>app/modules/custom/</file>
 
   <!-- オプション -->
   <arg name="cache" value=".phpcs.cache"/>
-  <arg name="extensions" value="inc,install,module,php,theme,yml"/>
+  <arg name="extensions" value="php,module,inc,install,test,profile,theme,info,txt,md,yml"/>
   <arg name="parallel" value="8"/>
 
-  <!-- Drupal CS を継承 -->
+  <!-- Drupal コアのバージョンを指定 -->
+  <config name="drupal_core_version" value="10"/>
+
+  <!-- Coder から Drupal と DrupalPractice を継承 -->
   <rule ref="Drupal" />
+  <rule ref="DrupalPractice"/>
 
   <!-- メソッド名はロアキャメルケースにする -->
   <rule ref="Drupal.NamingConventions.ValidFunctionName.ScopeNotCamelCaps">
     <!-- PHPUnit を使ったテストではメソッド名を日本語で書く場合があるので、tests
       ディレクトリ内の違反は無視する-->
     <exclude-pattern>*/tests/*</exclude-pattern>
-  </rule>
-
-  <!-- l() 関数の第1引数のテキストは t() 関数で翻訳可能にする -->
-  <rule ref="Drupal.Semantics.LStringTranslatable.LArg">
-    <!-- 日本語だけでサイトを構築することがあるので無視する -->
-    <severity>0</severity>
   </rule>
 
   <!-- パラメーターのコメントは大文字から始める -->
@@ -34,6 +34,18 @@
   <!-- Doc コメントのショートディスクリプションは大文字から始める -->
   <rule ref="Drupal.Commenting.DocComment.ShortNotCapital">
     <!-- 日本語でコメントを記載するため無視する -->
+    <severity>0</severity>
+  </rule>
+
+  <!-- #options の値は翻訳するため t() 関数を通す -->
+  <rule ref="DrupalPractice.General.OptionsT.TforValue">
+    <!-- 日本語だけのサイトを構築することがあるので無視する -->
+    <severity>0</severity>
+  </rule>
+
+  <!-- #description の値は翻訳するため t() 関数を通す -->
+  <rule ref="DrupalPractice.General.DescriptionT.DescriptionT">
+    <!-- 日本語だけのサイトを構築することがあるので無視する -->
     <severity>0</severity>
   </rule>
 </ruleset>
