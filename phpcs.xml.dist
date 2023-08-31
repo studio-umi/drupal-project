@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<ruleset name="StudioUmiDrupal">
+  <!-- Drupal CS を継承。 -->
+  <rule ref="Drupal" />
+
+  <!-- メソッド名はロアキャメルケースにする。 -->
+  <!-- PHPUnit を使ったテストではメソッド名を日本語で書く場合があるので、tests
+    ディレクトリ内の違反は無視する。-->
+  <rule ref="Drupal.NamingConventions.ValidFunctionName.ScopeNotCamelCaps">
+    <exclude-pattern>*/tests/*</exclude-pattern>
+  </rule>
+
+  <!-- l() 関数の第1引数のテキストは t() 関数で翻訳可能にする。 -->
+  <!-- 日本語だけでサイトを構築することがあるので無視する。 -->
+  <rule ref="Drupal.Semantics.LStringTranslatable.LArg">
+    <severity>0</severity>
+  </rule>
+
+  <!-- パラメーターのコメントは大文字から始める。 -->
+  <!-- 日本語でコメントを記載するため無視する。 -->
+  <rule ref="Drupal.Commenting.FunctionComment.ParamCommentNotCapital">
+    <severity>0</severity>
+  </rule>
+
+  <!-- Doc コメントのショートディスクリプションは大文字から始める。 -->
+  <!-- 日本語でコメントを記載するため無視する。 -->
+  <rule ref="Drupal.Commenting.DocComment.ShortNotCapital">
+    <severity>0</severity>
+  </rule>
+</ruleset>
