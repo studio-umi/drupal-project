@@ -1,30 +1,39 @@
 <?xml version="1.0"?>
-<ruleset name="StudioUmiDrupal">
-  <!-- Drupal CS を継承。 -->
+<ruleset name="Studio Umi coding standatd for Drupal development">
+  <!-- 対象のディレクトリ -->
+  <file>app/themes/custom/</file>
+  <file>app/modules/custom/</file>
+
+  <!-- オプション -->
+  <arg name="cache" value=".phpcs.cache"/>
+  <arg name="extensions" value="inc,install,module,php,theme"/>
+  <arg name="parallel" value="8"/>
+
+  <!-- Drupal CS を継承 -->
   <rule ref="Drupal" />
 
-  <!-- メソッド名はロアキャメルケースにする。 -->
-  <!-- PHPUnit を使ったテストではメソッド名を日本語で書く場合があるので、tests
-    ディレクトリ内の違反は無視する。-->
+  <!-- メソッド名はロアキャメルケースにする -->
   <rule ref="Drupal.NamingConventions.ValidFunctionName.ScopeNotCamelCaps">
+    <!-- PHPUnit を使ったテストではメソッド名を日本語で書く場合があるので、tests
+      ディレクトリ内の違反は無視する-->
     <exclude-pattern>*/tests/*</exclude-pattern>
   </rule>
 
-  <!-- l() 関数の第1引数のテキストは t() 関数で翻訳可能にする。 -->
-  <!-- 日本語だけでサイトを構築することがあるので無視する。 -->
+  <!-- l() 関数の第1引数のテキストは t() 関数で翻訳可能にする -->
   <rule ref="Drupal.Semantics.LStringTranslatable.LArg">
+    <!-- 日本語だけでサイトを構築することがあるので無視する -->
     <severity>0</severity>
   </rule>
 
-  <!-- パラメーターのコメントは大文字から始める。 -->
-  <!-- 日本語でコメントを記載するため無視する。 -->
+  <!-- パラメーターのコメントは大文字から始める -->
   <rule ref="Drupal.Commenting.FunctionComment.ParamCommentNotCapital">
+    <!-- 日本語でコメントを記載するため無視する -->
     <severity>0</severity>
   </rule>
 
-  <!-- Doc コメントのショートディスクリプションは大文字から始める。 -->
-  <!-- 日本語でコメントを記載するため無視する。 -->
+  <!-- Doc コメントのショートディスクリプションは大文字から始める -->
   <rule ref="Drupal.Commenting.DocComment.ShortNotCapital">
+    <!-- 日本語でコメントを記載するため無視する -->
     <severity>0</severity>
   </rule>
 </ruleset>

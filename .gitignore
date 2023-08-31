@@ -41,3 +41,6 @@
 
 # Ignore PHPStan cache files
 /.phpstan/cache/
+
+# Ignore PHPCS cache file
+/.phpcs.cache
