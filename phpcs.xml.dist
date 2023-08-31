@@ -6,7 +6,7 @@
 
   <!-- オプション -->
   <arg name="cache" value=".phpcs.cache"/>
-  <arg name="extensions" value="inc,install,module,php,theme"/>
+  <arg name="extensions" value="inc,install,module,php,theme,yml"/>
   <arg name="parallel" value="8"/>
 
   <!-- Drupal CS を継承 -->
