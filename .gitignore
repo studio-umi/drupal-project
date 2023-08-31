@@ -38,3 +38,6 @@
 
 # Ignore map files
 *.map
+
+# Ignore PHPStan cache files
+/.phpstan/cache/
