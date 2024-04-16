@@ -48,4 +48,9 @@
     <!-- 日本語だけのサイトなので無視する -->
     <severity>0</severity>
   </rule>
+
+  <!-- 変数展開以外のダブルクォーテーションは許可しない -->
+  <rule ref="Squiz.Strings.DoubleQuoteUsage.NotRequired">
+    <exclude name="Squiz.Strings.DoubleQuoteUsage.ContainsVar"/>
+  </rule>
 </ruleset>
