@@ -9,18 +9,18 @@ env:
 
 jobs:
   build:
-    runs-on: 'ubuntu-20.04'
+    runs-on: 'ubuntu-24.04'
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.1']
+        php-versions: ['8.3']
         drupal-release: ['stable']
         composer-channel: ['stable']
         include:
-          - php-versions: '8.1'
+          - php-versions: '8.3'
             drupal-release: dev
             composer-channel: stable
-          - php-versions: '8.1'
+          - php-versions: '8.3'
             drupal-release: stable
             composer-channel: snapshot
     steps:
@@ -51,7 +51,7 @@ jobs:
         run: composer --verbose install
 
       - if: matrix.drupal-release == 'dev'
-        run: composer --verbose require --no-update drupal/core-recommended:10.0.x-dev && composer --verbose require --no-update --dev drupal/core-dev:10.0.x-dev
+        run: composer --verbose require --no-update drupal/core-recommended:11.0.x-dev && composer --verbose require --no-update --dev drupal/core-dev:11.0.x-dev
 
       - if: matrix.drupal-release == 'dev'
         run: composer --verbose update
@@ -64,7 +64,7 @@ jobs:
 
         # https://www.drupal.org/project/drupal/issues/3182653
         # https://www.drupal.org/node/3176567
-      - if: ${{ matrix.php-versions == '8.1' }}
+      - if: ${{ matrix.php-versions == '8.3' }}
         run: composer require phpspec/prophecy-phpunit:^2
 
       - name: Run a single unit test to verify the testing setup.
