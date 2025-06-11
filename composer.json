@@ -1,5 +1,6 @@
 {
     "name": "studioumi/drupal-project",
+    "abandoned": "studio-umi/drupal-project",
     "description": "Project template for Drupal 10 projects with composer",
     "type": "project",
     "license": "GPL-2.0-or-later",
