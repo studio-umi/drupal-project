@@ -4,8 +4,8 @@ parameters:
   level: 1
   tmpDir: .cache/phpstan/
   paths:
-    - web/modules/custom
-    - web/themes/custom
+    - app/modules/custom
+    - app/themes/custom
   fileExtensions:
     - php
     - inc
