@@ -80,6 +80,7 @@
             "app-dir": "app",
             "web-dir": "web",
             "asset-files": [
+                "*.avif",
                 "*.svgz",
                 "*.webp"
             ]
