@@ -1,19 +1,13 @@
 {
     "name": "studio-umi/drupal-project",
     "description": "Project template for Drupal 11 projects with composer",
-    "type": "project",
     "license": "GPL-2.0-or-later",
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://packages.drupal.org/8"
-        }
-    ],
+    "type": "project",
     "require": {
         "php": ">=8.3",
         "composer/installers": "^2.3",
         "cweagans/composer-patches": "^1.7",
-        "drupal-composer/drupal-paranoia": "~1",
+        "drupal-composer/drupal-paranoia": "^1",
         "drupal/core-composer-scaffold": "^11.0",
         "drupal/core-recommended": "^11.0",
         "drush/drush": "^13.0",
@@ -30,11 +24,27 @@
     "conflict": {
         "drupal/drupal": "*"
     },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        },
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ],
     "minimum-stability": "dev",
     "prefer-stable": true,
+    "autoload": {
+        "classmap": [
+            "scripts/composer/ScriptHandler.php"
+        ],
+        "files": [
+            "load.environment.php"
+        ]
+    },
     "config": {
-        "discard-changes": true,
-        "sort-packages": true,
         "allow-plugins": {
             "composer/installers": true,
             "cweagans/composer-patches": true,
@@ -46,51 +56,31 @@
             "php-http/discovery": true,
             "phpstan/extension-installer": true,
             "tbachert/spi": true
-        }
-    },
-    "autoload": {
-        "classmap": [
-            "scripts/composer/ScriptHandler.php"
-        ],
-        "files": ["load.environment.php"]
-    },
-    "scripts": {
-        "post-create-project-cmd": [
-            "rm -rf ./.github"
-        ],
-        "pre-install-cmd": [
-            "DrupalProject\\composer\\ScriptHandler::checkComposerVersion"
-        ],
-        "pre-update-cmd": [
-            "DrupalProject\\composer\\ScriptHandler::checkComposerVersion"
-        ],
-        "post-install-cmd": [
-            "DrupalProject\\composer\\ScriptHandler::createRequiredFiles"
-        ],
-        "post-update-cmd": [
-            "DrupalProject\\composer\\ScriptHandler::createRequiredFiles"
-        ]
+        },
+        "discard-changes": true,
+        "sort-packages": true
     },
     "extra": {
-        "drupal-scaffold": {
-            "file-mapping": {
-                "[project-root]/.gitignore": false,
-                "[web-root]/INSTALL.txt": false,
-                "[web-root]/README.txt": false,
-                "[web-root]/.eslintrc.json": false
-            },
-            "locations": {
-                "web-root": "app/"
-            }
-        },
+        "composer-exit-on-patch-failure": true,
         "drupal-paranoia": {
             "app-dir": "app",
-            "web-dir": "web",
             "asset-files": [
                 "*.avif",
                 "*.svgz",
                 "*.webp"
-            ]
+            ],
+            "web-dir": "web"
+        },
+        "drupal-scaffold": {
+            "file-mapping": {
+                "[project-root]/.gitignore": false,
+                "[web-root]/.eslintrc.json": false,
+                "[web-root]/INSTALL.txt": false,
+                "[web-root]/README.txt": false
+            },
+            "locations": {
+                "web-root": "app/"
+            }
         },
         "installer-paths": {
             "app/core": [
@@ -127,11 +117,26 @@
             "bower-asset",
             "npm-asset"
         ],
-        "composer-exit-on-patch-failure": true,
         "patchLevel": {
             "drupal/core": "-p2"
         },
-        "patches": {
-        }
+        "patches": {}
+    },
+    "scripts": {
+        "pre-install-cmd": [
+            "DrupalProject\\composer\\ScriptHandler::checkComposerVersion"
+        ],
+        "post-install-cmd": [
+            "DrupalProject\\composer\\ScriptHandler::createRequiredFiles"
+        ],
+        "pre-update-cmd": [
+            "DrupalProject\\composer\\ScriptHandler::checkComposerVersion"
+        ],
+        "post-update-cmd": [
+            "DrupalProject\\composer\\ScriptHandler::createRequiredFiles"
+        ],
+        "post-create-project-cmd": [
+            "rm -rf ./.github"
+        ]
     }
 }
