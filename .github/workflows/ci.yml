@@ -1,6 +1,7 @@
 name: CI
 
-on: [push]
+on:
+  push:
 
 env:
   COMPOSER_MEMORY_LIMIT: -1
@@ -9,20 +10,15 @@ env:
 
 jobs:
   build:
-    runs-on: 'ubuntu-24.04'
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
+
       matrix:
         php-versions: ['8.3']
-        drupal-release: ['stable']
-        composer-channel: ['stable']
-        include:
-          - php-versions: '8.3'
-            drupal-release: dev
-            composer-channel: stable
-          - php-versions: '8.3'
-            drupal-release: stable
-            composer-channel: snapshot
+        drupal-release: ['stable', 'beta', 'dev']
+        composer-channel: ['stable', 'snapshot']
+
     steps:
       - name: Dump matrix context
         env:
@@ -32,16 +28,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Upgrade sqlite3
+        run: |
+          wget https://www.sqlite.org/2024/sqlite-autoconf-3450300.tar.gz -O /tmp/sqlite.tar.gz
+          tar -xzf /tmp/sqlite.tar.gz -C /tmp
+          cd /tmp/sqlite-autoconf-3450300
+          ./configure CFLAGS="-DSQLITE_ENABLE_COLUMN_METADATA=1" --prefix=/usr/local
+          make && sudo make install
+          sudo ldconfig
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          extensions: gd, pdo_sqlite
+          extensions: gd, sqlite, pdo_sqlite
 
-      - name: Update composer
+      - name: Update Composer
         run: composer --verbose self-update --${{ matrix.composer-channel }}
 
-      - name: Dump composer version
+      - name: Show Composer version
         run: composer --version
 
       - name: Validate composer.json
@@ -50,24 +55,58 @@ jobs:
       - name: Install dependencies
         run: composer --verbose install
 
-      - if: matrix.drupal-release == 'dev'
-        run: composer --verbose require --no-update drupal/core-recommended:11.0.x-dev && composer --verbose require --no-update --dev drupal/core-dev:11.0.x-dev
+      - name: Validate composer.json structure
+        run: composer normalize --dry-run
 
-      - if: matrix.drupal-release == 'dev'
-        run: composer --verbose update
+      - name: Require bower-asset
+        run: |
+          test ! -d web/libraries/dropzone
+          composer require bower-asset/dropzone
+          test -d web/libraries/dropzone
 
-      - run: ./vendor/bin/drush site-install --verbose --yes --db-url=sqlite://tmp/site.sqlite
+      - name: Override Drupal version to dev for testing dev releases
+        if: matrix.drupal-release == 'dev' || matrix.drupal-release == 'beta'
+        run: |
+          composer config minimum-stability ${{ matrix.drupal-release }}
+          composer config prefer-stable false
+          composer --verbose require --no-update drupal/core-composer-scaffold:^11@${{ matrix.drupal-release }}
+          composer --verbose require --no-update drupal/core-recommended:^11@${{ matrix.drupal-release }}
+          composer --verbose require --no-update --dev drupal/core-dev:^11@${{ matrix.drupal-release }}
+          composer --verbose update
 
-      - run: ./vendor/bin/drush runserver $SIMPLETEST_BASE_URL &
+      - name: Install site
+        run: ./vendor/bin/drush site-install --verbose --yes --db-url=sqlite://tmp/site.sqlite
 
-      - run: until curl -s $SIMPLETEST_BASE_URL; do true; done > /dev/null
+      - name: Show site information
+        run: ./vendor/bin/drush status
 
-        # https://www.drupal.org/project/drupal/issues/3182653
-        # https://www.drupal.org/node/3176567
-      - if: ${{ matrix.php-versions == '8.3' }}
-        run: composer require phpspec/prophecy-phpunit:^2
+      - name: Start server
+        run: |
+          ./vendor/bin/drush runserver "$SIMPLETEST_BASE_URL" &
+          until curl -s "$SIMPLETEST_BASE_URL"; do true; done > /dev/null
 
-      - name: Run a single unit test to verify the testing setup.
-        run: ./vendor/bin/phpunit -c ./app/core ./app/core/modules/user/tests/src/Unit/UserAccessControlHandlerTest.php
+      - name: Run a single unit test to verify the testing setup
+        run: ./vendor/bin/phpunit -c ./web/core "$(pwd)/web/core/modules/user/tests/src/Unit/UserAccessControlHandlerTest.php"
 
-      - run: ./vendor/bin/drush
+  # Using outdated Composer version to test the Composer version constraint.
+  test-composer:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+          extensions: gd, pdo_sqlite
+          tools: composer:v2.2
+
+      - name: Show Composer version
+        run: composer --version
+
+      - name: Install dependencies
+        # This command should fail because of the Composer version constraint.
+        run: composer --verbose install && exit 1 || exit 0

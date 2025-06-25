@@ -1,5 +1,5 @@
 {
-    "name": "studioumi/drupal-project",
+    "name": "studio-umi/drupal-project",
     "description": "Project template for Drupal 11 projects with composer",
     "type": "project",
     "license": "GPL-2.0-or-later",
@@ -17,12 +17,14 @@
         "drupal/core-composer-scaffold": "^11.0",
         "drupal/core-recommended": "^11.0",
         "drush/drush": "^13.0",
+        "oomphinc/composer-installers-extender": "^2.0",
         "vlucas/phpdotenv": "^5.1",
-        "webflo/drupal-finder": "^1.2"
+        "webflo/drupal-finder": "^1.3"
     },
     "require-dev": {
         "drupal/coder": "^8.3",
         "drupal/core-dev": "^11.0",
+        "ergebnis/composer-normalize": "^2.42",
         "mglaman/phpstan-drupal": "^1.2"
     },
     "conflict": {
@@ -39,6 +41,8 @@
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "drupal-composer/drupal-paranoia": true,
             "drupal/core-composer-scaffold": true,
+            "ergebnis/composer-normalize": true,
+            "oomphinc/composer-installers-extender": true,
             "php-http/discovery": true,
             "phpstan/extension-installer": true,
             "tbachert/spi": true
@@ -70,6 +74,9 @@
     "extra": {
         "drupal-scaffold": {
             "file-mapping": {
+                "[project-root]/.gitignore": false,
+                "[web-root]/INSTALL.txt": false,
+                "[web-root]/README.txt": false,
                 "[web-root]/.eslintrc.json": false
             },
             "locations": {
@@ -86,13 +93,40 @@
             ]
         },
         "installer-paths": {
-            "app/core": ["type:drupal-core"],
-            "app/libraries/{$name}": ["type:drupal-library"],
-            "app/modules/contrib/{$name}": ["type:drupal-module"],
-            "app/profiles/contrib/{$name}": ["type:drupal-profile"],
-            "app/themes/contrib/{$name}": ["type:drupal-theme"],
-            "drush/Commands/contrib/{$name}": ["type:drupal-drush"]
+            "app/core": [
+                "type:drupal-core"
+            ],
+            "app/libraries/{$name}": [
+                "type:drupal-library",
+                "type:bower-asset",
+                "type:npm-asset"
+            ],
+            "app/modules/contrib/{$name}": [
+                "type:drupal-module"
+            ],
+            "app/profiles/contrib/{$name}": [
+                "type:drupal-profile"
+            ],
+            "app/themes/contrib/{$name}": [
+                "type:drupal-theme"
+            ],
+            "drush/Commands/contrib/{$name}": [
+                "type:drupal-drush"
+            ],
+            "app/modules/custom/{$name}": [
+                "type:drupal-custom-module"
+            ],
+            "app/profiles/custom/{$name}": [
+                "type:drupal-custom-profile"
+            ],
+            "app/themes/custom/{$name}": [
+                "type:drupal-custom-theme"
+            ]
         },
+        "installer-types": [
+            "bower-asset",
+            "npm-asset"
+        ],
         "composer-exit-on-patch-failure": true,
         "patchLevel": {
             "drupal/core": "-p2"

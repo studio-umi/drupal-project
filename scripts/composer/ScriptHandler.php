@@ -11,7 +11,7 @@ use Composer\Script\Event;
 use Composer\Semver\Comparator;
 use Drupal\Core\Site\Settings;
 use Drupal\Core\Site\SettingsEditor;
-use DrupalFinder\DrupalFinder;
+use DrupalFinder\DrupalFinderComposerRuntime;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Path;
 
@@ -19,9 +19,13 @@ class ScriptHandler {
 
   public static function createRequiredFiles(Event $event) {
     $fs = new Filesystem();
-    $drupalFinder = new DrupalFinder();
-    $drupalFinder->locateRoot(getcwd());
+    $drupalFinder = new DrupalFinderComposerRuntime();
     $drupalRoot = $drupalFinder->getDrupalRoot();
+
+    if (is_null($drupalRoot)) {
+      $event->getIO()->writeError('<error>Drupal root could not be detected.</error>');
+      exit(1);
+    }
 
     $dirs = [
       'modules',
@@ -53,7 +57,7 @@ class ScriptHandler {
     }
 
     // Create the files directory with chmod 0777
-    if (!$fs->exists($drupalRoot . '/sites/default/files')) {
+    if (!$fs->exists($drupalRoot . '/sites/default/files') && !is_link($drupalRoot . '/sites/default/files')) {
       $oldmask = umask(0);
       $fs->mkdir($drupalRoot . '/sites/default/files', 0777);
       umask($oldmask);
@@ -92,8 +96,8 @@ class ScriptHandler {
     if ($version === '@package_version@' || $version === '@package_branch_alias_version@') {
       $io->writeError('<warning>You are running a development version of Composer. If you experience problems, please update Composer to the latest stable version.</warning>');
     }
-    elseif (Comparator::lessThan($version, '1.0.0')) {
-      $io->writeError('<error>Drupal-project requires Composer version 1.0.0 or higher. Please update your Composer before continuing</error>.');
+    elseif (Comparator::lessThan($version, '2.3.6')) {
+      $io->writeError('<error>Drupal-project requires Composer version 2.3.6 or higher. Please update your Composer before continuing.</error>');
       exit(1);
     }
   }
