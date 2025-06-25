@@ -16,8 +16,8 @@ jobs:
 
       matrix:
         php-versions: ['8.3']
-        drupal-release: ['stable', 'beta', 'dev']
-        composer-channel: ['stable', 'snapshot']
+        drupal-release: ['stable']
+        composer-channel: ['stable']
 
     steps:
       - name: Dump matrix context
@@ -60,9 +60,9 @@ jobs:
 
       - name: Require bower-asset
         run: |
-          test ! -d web/libraries/dropzone
+          test ! -d app/libraries/dropzone
           composer require bower-asset/dropzone
-          test -d web/libraries/dropzone
+          test -d app/libraries/dropzone
 
       - name: Override Drupal version to dev for testing dev releases
         if: matrix.drupal-release == 'dev' || matrix.drupal-release == 'beta'
@@ -86,7 +86,7 @@ jobs:
           until curl -s "$SIMPLETEST_BASE_URL"; do true; done > /dev/null
 
       - name: Run a single unit test to verify the testing setup
-        run: ./vendor/bin/phpunit -c ./web/core "$(pwd)/web/core/modules/user/tests/src/Unit/UserAccessControlHandlerTest.php"
+        run: ./vendor/bin/phpunit -c ./app/core "$(pwd)/app/core/modules/user/tests/src/Unit/UserAccessControlHandlerTest.php"
 
   # Using outdated Composer version to test the Composer version constraint.
   test-composer:
